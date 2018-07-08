@@ -4,9 +4,9 @@ title:  Ciência de Dados para Todos (Data Science
 author: "Fernanda Amorim, Gustavo Monteiro e Daniel Lima"
 date: "11/06/2018"
 output:
-  pdf_document: default
   html_document:
     df_print: paged
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -26,7 +26,7 @@ No Relatório Final da Disciplina será feita uma análise descritiva de 3 progr
 
 Para desenvolvimento do trabalho devem ser seguidos, da forma mais simplificada e coerente possível, as fases e atividades genéricas do ciclo de vida de um projeto executado em aderência ao CRISP-DM, conforme ilustra de forma geral a figura 1. Em outras palavras, a produção do relatorio deve seguir a metodologia CRISP-DM.
 
-![Fases do Ciclo de Vida do CRISM-DM. Fonte: (Chapman et al., 2000).](CRISP-DM)
+<!-- ![Fases do Ciclo de Vida do CRISM-DM. Fonte: (Chapman et al., 2000).](CRISP-DM) -->
 
 Perceba que a Figura 1 sugere haver grande flexibilidade na execução das fases, de modo que se pode retornar a fases anteriores em muitos pontos.
 
@@ -204,6 +204,30 @@ A quantidade de docentes indica o quanto o programa é novo.
 
 Neste Relatório, serão feitas análises de dados dos professores, de publicações e de orientações para que se possa avaliar o andamento dos programas de pós-graduação e gerar novas perspectivas e soluções para estes. 
 
+Enquanto o programa de pós-graduação em Agronegócios, possui apenas uma área de concentração e integradora de duas linhas de pesquisa com objetivos focalizados. Inicialmente possui um aspecto multidisciplinar, agregando docentes de diversas formações em torno da mesmo tema, de tal forma que preserve o campo de conhecimento de cada um. As linhas de pesquisa do programa são:
+
+1. Agricultura Familiar e Agronegócios: Desenvolvimento de estudos relacionados ao universo da agricultura familiar, buscando compreender seu processo histórico de transformação, seus desafios atuais, tendências e perspectivas futuras. Investigar os impactos das políticas públicas direcionadas ao setor com prioridade para políticas de reforma agrária, extensão rural, crédito, educação do campo e de geração de tecnologia. Priorizar nos estudos a construção de conhecimentos que contribuam para a promoção do desenvolvimento sustentável, com ênfase em aspectos como a viabilidade econômica da agricultura familiar, a reversão do processo de exclusão social e o uso sustentável dos recursos naturais. Também são objetivos desta linha de pesquisa conhecer os diferentes atores, marcados por especificidades de ciclo de vida, classe, étnico-raciais, geração e gênero.
+
+2. Competitividade e sustentabilidade no Agronegócio: Desenvolvimento de estudos e pesquisas voltados para a dinâmica competitiva do agronegócio nos âmbitos regional, nacional e internacional, levando em consideração as principais abordagens teóricas relacionadas ao estudo dos sistemas agroindustriais de forma a apoiar a formulação de políticas públicas e a tomada de decisão no âmbito das organizações do agronegócio.
+
+O programa é coordenado pelo Prof.Dr. Karim Marini Thomé e é composto pelos seguintes docentes:
+
+Ana Maria Resende Junqueira
+Antônio Maria Gomes de Castro
+Armando Fornazier
+Carlos Rosano Peña
+Flávio Borges Botelho Filho
+João Paulo Guimarães Soares
+José Eustáquio Ribeiro Vieira Filho
+José Márcio Carvalho
+Karim Marini Thomé
+Maria Júlia Pantoja
+Marlon Vinícius Brisola
+Mauro Eduardo Del Grossi
+Patricia Guarnieri
+Suzana Maria Valle Lima
+Vânia Ferreira Roque-Specht
+
 
 ## O que a Organização precisa realmente alcançar?
 
@@ -242,20 +266,32 @@ Todos os arquivos com dados apresentados foram fornecidos pela plataforma http:/
 #file.info(json.perfil)
 
 json.perfil.ambientais <- "dados/ambientais.profile.json"
-file.info(json.perfil.ambientais)
+json.perfil.agronomia <- "dados/233.profile.json"
+json.perfil.agronegocio <- "dados/232.profile.json"
+df <- rbind(file.info(json.perfil.ambientais),
+      file.info(json.perfil.agronomia),
+      file.info(json.perfil.agronegocio))
+rownames(df) <- gsub("dados/", "", rownames(df))
+df
 ```
 
-O arquivo `r json.perfil` apresenta dados sobre o perfil de todos os docentes vinculados a programas de pós-graduação da UnB, entre 2010 e 2017. 
+Os arquivos `r rownames(df)` apresentam dados sobre o perfil de todos os docentes vinculados a programas de pós-graduação da UnB, entre 2010 e 2017. 
 Esse arquivo foi fornecido pelos docentes responsáveis pela disciplina.
 
 ###Orientações de mestrado e doutorado realizadas pelos docentes vinculados às pós-graduações
 
 ```{r}
 json.advise.ambientais <- "dados/ambientais.advise.json"
-file.info(json.advise.ambientais)
+json.advise.agronomia <- "dados/233.advise.json"
+json.advise.agronegocio <- "dados/232.advise.json"
+df.advice <- rbind(file.info(json.advise.ambientais),
+      file.info(json.advise.agronomia),
+      file.info(json.advise.agronegocio))
+rownames(df.advice) <- gsub("dados/", "", rownames(df.advice))
+df.advice
 ```
 
-O arquivo `r json.advise` apresenta dados sobre o orientações de mestrado e doutorado feitas por todos os docentes vinculados a programas de pós-graduação da UnB, entre 2010 e 2017. 
+Os arquivos `r rownames(df.advice)` apresentam dados sobre o orientações de mestrado e doutorado feitas por todos os docentes vinculados a programas de pós-graduação da UnB, entre 2010 e 2017. 
 Esse arquivo foi fornecido pelos docentes responsáveis pela disciplina.
 
 
@@ -263,27 +299,32 @@ Esse arquivo foi fornecido pelos docentes responsáveis pela disciplina.
 
 ```{r}
 json.producao.bibliografica.ambientais <- "dados/ambientais.publication.json"
-file.info(json.producao.bibliografica.ambientais) 
+json.producao.bibliografica.agronomia <- "dados/233.publication.json"
+json.producao.bibliografica.agronegocio <- "dados/232.publication.json"
+df.bib <- rbind(file.info(json.producao.bibliografica.ambientais),
+      file.info(json.producao.bibliografica.agronomia),
+      file.info(json.producao.bibliografica.agronegocio))
+rownames(df.bib) <- gsub('dados/', '', x = rownames(df.bib))
+df.bib
 ```
 
-O arquivo `r json.producao.bibliografica` apresenta dados sobre a produção bibliográfica gerada por todos os docentes vinculados a programas de pós-graduação da UnB, entre 2010 e 2017. 
+Os arquivos `r rownames(df.bib)` apresentam dados sobre a produção bibliográfica gerada por todos os docentes vinculados a programas de pós-graduação da UnB, entre 2010 e 2017. 
 
-###Agrupamento dos docentes conforme áreas de atuação
-
-```{r}
-#json.researchers_by_area <- "ambientais.researchers_by_area.json" 
-#   file.info(json.researchers_by_area)
-```
-
-O arquivo `r json.researchers_by_area` apresenta as vinculações de todos os docentes que declararam atuar em cada uma das áreas de pós-graduação do Sistema Nacional de Pós-Graduação da CAPES, conforme apresenta-se registrada essa informação no currículo Lattes de cada um, em data recente. 
-
-```{r}
-file.info('dados/ambientais.graph.json')
-```
 
 ###Redes de colaboração entre docentes
 
-O arquivo 233.graph.json apresenta redes de colaboração na co-autoria de artigos científicos, feitas entre os docentes vinculados a programas de pós-graduação da UnB, entre 2010 e 2017.
+
+```{r}
+df.graph <- rbind(file.info('dados/ambientais.graph.json'),
+file.info('dados/ambientais.graph.json'),
+file.info('dados/ambientais.graph.json'))
+rownames(df.graph) <- gsub('dados/', '', x = rownames(df.graph))
+df.graph
+
+```
+
+
+Os arquivos `r rownames(df.graph)` apresentam redes de colaboração na co-autoria de artigos científicos, feitas entre os docentes vinculados a programas de pós-graduação da UnB, entre 2010 e 2017.
 
 ##CRISP-DM Fase.Atividade 2.2 - Descrição dos Dados
 
@@ -303,14 +344,16 @@ library(tidyverse)
 O arquivo 233.perfis.json, que contém dados que caracterizam o perfil profissional de todos os docentes do grupo sob análise, podem ser lido por meio do comando seguinte.
 
 ```{r}
-agro.prof <- fromJSON("C:\\Users\\amori\\Documents\\UnB\\DS4A\\233.files\\233.profile.json")
+agro.prof <- fromJSON("dados/233.profile.json")
 ambientais.prof <- fromJSON("dados/ambientais.profile.json")
+agronegocio.prof <- fromJSON("dados/232.profile.json")
 ```
 
-A quantidade de docentes sob análise é apresentada a seguir.
+A quantidade de docentes nos programas sob análise é apresentada a seguir.
 ```{r}
-length(agro.prof)
-length(ambientais.prof)
+c("Agronomia" = length(agro.prof),
+"Ambientais" = length(ambientais.prof),
+"Agronegócio" = length(agronegocio.prof))
 ```
 
 Para gerar uma apresentação inicial dos dados que estão contido nos dados de perfil dos docentes, pode-se usar a função glimpse, da biblioteca dplyr, como ilustra o código seguinte, que apresenta os atributos típicos que podem ser obtidos relativamente a um pesquisador específico, o mais antigo docente ainda em exercício na UnB a ter criado seu registro na plataforma Lattes.
@@ -326,6 +369,11 @@ glimpse(ambientais.prof[[1]]$areas_de_atuacao$area)
 glimpse(ambientais.prof[[1]]$producao_bibiografica$PERIODICO$natureza)
 glimpse(ambientais.prof[[1]]$orientacoes_academicas$OUTRAS_ORIENTACOES_CONCLUIDAS)
 glimpse(ambientais.prof[[1]]$senioridade)
+
+glimpse(agronegocio.prof[[1]]$areas_de_atuacao$area)
+glimpse(agronegocio.prof[[1]]$producao_bibiografica$PERIODICO$natureza)
+glimpse(agronegocio.prof[[1]]$orientacoes_academicas$OUTRAS_ORIENTACOES_CONCLUIDAS)
+glimpse(agronegocio.prof[[1]]$senioridade)
 ```
 
 Uma breve inspeção visual dos atributos anteriormente apresentados permite inferir que o pesquisador de agronomia (1o caso) sob análise:
@@ -342,6 +390,12 @@ Já o pesquisador do PROFCIAMB tem as seguintes características:
 * Tem senioridade 9.
 * Publicou 5 artigos entre os anos de 2010 e 2017.
 * Realizou 5 orientações de monografia e trabalho de conclusão de curso de graduação
+
+Enquanto a pesquisadora do agronegócio(3º caso):
+
+* Atua predominantemente na área da psicologia;
+* Possui senioridade 8;
+* Realizou 7 orientações de monografias, 5 orientações de mestrado finalizadas e 6 em andamento.
 
 ####Potencial de utilização dos dados do perfil dos docentes
 
@@ -362,7 +416,7 @@ Esses dados terão potencial para responder às questões de _data mining_? O qu
 ###Descrição dos dados de orientações
 
 ```{r}
-agro.adv <- fromJSON("C:\\Users\\amori\\Documents\\UnB\\DS4A\\233.files\\233.advise.json")
+agro.adv <- fromJSON("dados/233.advise.json")
 names(agro.adv)
 names(agro.adv$ORIENTACAO_CONCLUIDA_DOUTORADO)
 length(agro.adv$ORIENTACAO_CONCLUIDA_DOUTORADO$`2016`$natureza)
@@ -376,12 +430,19 @@ names(ambientais.adv$ORIENTACAO_CONCLUIDA_DOUTORADO)
 length(ambientais.adv$ORIENTACAO_CONCLUIDA_DOUTORADO$`2016`$natureza)
 head(sort(table(ambientais.adv$ORIENTACAO_CONCLUIDA_DOUTORADO$`2017`$curso), decreasing = TRUE), 10)
 head(sort(table(ambientais.adv$ORIENTACAO_CONCLUIDA_MESTRADO$`2017`$curso), decreasing = TRUE), 10)
+
+agronegocio.adv <- fromJSON("dados/232.advise.json")
+names(agronegocio.adv)
+names(agronegocio.adv$ORIENTACAO_CONCLUIDA_DOUTORADO)
+length(agronegocio.adv$ORIENTACAO_CONCLUIDA_DOUTORADO$`2016`$natureza)
+head(sort(table(agronegocio.adv$ORIENTACAO_CONCLUIDA_DOUTORADO$`2017`$curso), decreasing = TRUE), 10)
+head(sort(table(agronegocio.adv$ORIENTACAO_CONCLUIDA_MESTRADO$`2017`$curso), decreasing = TRUE), 10)
 ```
 
 
 ###Descrição dos dados de produção bibliográfica
 ```{r}
-agro.pub <- fromJSON("C:\\Users\\amori\\Documents\\UnB\\DS4A\\233.files\\233.publication.json")
+agro.pub <- fromJSON("dados/233.publication.json")
 names(agro.pub)
 names(agro.pub$PERIODICO$`2012`)
 head(sort(table(agro.pub$PERIODICO$`2016`$periodico), decreasing = TRUE), 10)
@@ -392,6 +453,12 @@ names(ambientais.pub)
 names(ambientais.pub$PERIODICO$`2012`)
 head(sort(table(ambientais.pub$PERIODICO$`2016`$periodico), decreasing = TRUE), 10)
 head(sort(table(ambientais.pub$LIVRO$`2017`$nome_da_editora), decreasing = TRUE), 10)
+
+agronegocio.pub <- fromJSON("dados/232.publication.json")
+names(agronegocio.pub)
+names(agronegocio.pub$PERIODICO$`2012`)
+head(sort(table(agronegocio.pub$PERIODICO$`2016`$periodico), decreasing = TRUE), 10)
+head(sort(table(agronegocio.pub$LIVRO$`2017`$nome_da_editora), decreasing = TRUE), 10)
 ```
 
 
@@ -409,61 +476,96 @@ Como já informado, a análise exploratória dos dados possibilita um entendimen
 ```{r}
 # jsonedit(agro.prof)
 # Número de áreas de atuação cumulativo
-sum(sapply(agro.prof, function(x) nrow(x$areas_de_atuacao)))
-sum(sapply(ambientais.prof, function(x) nrow(x$areas_de_atuacao)))
+c("Agronomia" = sum(sapply(agro.prof, function(x) nrow(x$areas_de_atuacao))),
+"Ambientais" = sum(sapply(ambientais.prof, function(x) nrow(x$areas_de_atuacao))),
+"Agronegócio" = sum(sapply(agronegocio.prof, function(x) nrow(x$areas_de_atuacao)))) %>% 
+  knitr::kable(caption = "Número de áreas de atuação por programa")
 # Número de áreas de atuação por pessoa
-table(unlist(sapply(agro.prof, function(x) nrow(x$areas_de_atuacao))))
-table(unlist(sapply(ambientais.prof, function(x) nrow(x$areas_de_atuacao))))
+table(unlist(sapply(agro.prof, function(x) nrow(x$areas_de_atuacao)))) %>% 
+  knitr::kable(caption = "Número de áreas de atuação por pessoa para agronomia")
+table(unlist(sapply(ambientais.prof, function(x) nrow(x$areas_de_atuacao)))) %>% 
+  knitr::kable(caption = "Número de áreas de atuação por pessoa para ambientais")
+table(unlist(sapply(agronegocio.prof, function(x) nrow(x$areas_de_atuacao)))) %>% 
+  knitr::kable(caption = "Número de áreas de atuação por pessoa para agronegócio")
 # Número de pessoas por grande area
 grande.area.agro <- table(unlist(sapply(agro.prof, function(x) (x$areas_de_atuacao$grande_area))))
 grande.area.ambientais <- table(unlist(sapply(ambientais.prof, function(x) (x$areas_de_atuacao$grande_area))))
+grande.area.agronegocio <- table(unlist(sapply(agronegocio.prof, function(x) (x$areas_de_atuacao$grande_area))))
 grande.area.agro <- data.frame(grande.area.agro)
 grande.area.ambientais <- data.frame(grande.area.ambientais)
-ggplot(grande.area.agro, aes(x=Var1, y=Freq)) + geom_col()
-ggplot(grande.area.ambientais, aes(x=Var1, y=Freq)) + geom_col()
+grande.area.agronegocio <- data.frame(grande.area.agronegocio)
+ggplot(grande.area.agro, aes(x=Var1, y=Freq)) + geom_col()+
+  ggtitle("Número de pessoas grande área na Agronomia")
+ggplot(grande.area.ambientais, aes(x=Var1, y=Freq)) + geom_col() +
+  ggtitle("Número de pessoas grande área na Ambientais")
+ggplot(grande.area.agronegocio, aes(x=Var1, y=Freq)) + geom_col() + 
+  ggtitle("Número de pessoas grande área na Agronegócio")
 # Número de pessoas que produziram os específicos tipos de produção
 agro.prod <- table(unlist(sapply(agro.prof, function(x) names(x$producao_bibiografica))))
 ambientais.prod <- table(unlist(sapply(ambientais.prof, function(x) names(x$producao_bibiografica))))
+agronegocio.prod <- table(unlist(sapply(agronegocio.prof, function(x) names(x$producao_bibiografica))))
 agro.prod <- data.frame(agro.prod)
 ambientais.prod <- data.frame(ambientais.prod)
-ggplot(agro.prod, aes(x= Var1, y=Freq)) + geom_col()
-ggplot(ambientais.prod, aes(x= Var1, y=Freq)) + geom_col()
+agronegocio.prod <- data.frame(agronegocio.prod)
+ggplot(agro.prod, aes(x= Var1, y=Freq)) + geom_col()+
+  ggtitle("Número de produções bibliográficas por professor na Agronomia")
+ggplot(ambientais.prod, aes(x= Var1, y=Freq)) + geom_col()+
+    ggtitle("Número de produções bibliográficas por professor na Ambientais")
+ggplot(agronegocio.prod, aes(x= Var1, y=Freq)) + geom_col()+
+    ggtitle("Número de produções bibliográficas por professor na Agronegócio")
 # Número de publicações por tipo
-sum(sapply(agro.prof, function(x) length(x$producao_bibiografica$ARTIGO_ACEITO$ano)))
-sum(sapply(ambientais.prof, function(x) length(x$producao_bibiografica$ARTIGO_ACEITO$ano)))
-sum(sapply(unb.prof, function(x) length(x$producao_bibiografica$CAPITULO_DE_LIVRO$ano)))
-sum(sapply(agro.prof, function(x) length(x$producao_bibiografica$LIVRO$ano)))
-sum(sapply(agro.prof, function(x) length(x$producao_bibiografica$PERIODICO$ano)))
-sum(sapply(ambientais.prof, function(x) length(x$producao_bibiografica$LIVRO$ano)))
-sum(sapply(ambientais.prof, function(x) length(x$producao_bibiografica$PERIODICO$ano)))
-sum(sapply(agro.prof, function(x) length(x$producao_bibiografica$TEXTO_EM_JORNAIS$ano)))
+c("Agronomia" = sum(sapply(agro.prof,
+                           function(x) length(x$producao_bibiografica$ARTIGO_ACEITO$ano))),
+"Ambientais" = sum(sapply(ambientais.prof,
+                          function(x) length(x$producao_bibiografica$ARTIGO_ACEITO$ano))),
+"Agronegocio" = sum(sapply(agronegocio.prof,
+                           function(x) length(x$producao_bibiografica$ARTIGO_ACEITO$ano)))) %>% 
+  knitr::kable(caption="Número de artigos aceitos por programa")
+
+c("Agronomia Livro" = sum(sapply(agro.prof, function(x) length(x$producao_bibiografica$LIVRO$ano))),
+"Agronomia Periodico" = sum(sapply(agro.prof, function(x) length(x$producao_bibiografica$PERIODICO$ano))),
+"Agronomia Jornais" = sum(sapply(agro.prof, function(x) length(x$producao_bibiografica$TEXTO_EM_JORNAIS$ano))),
+"Ambientais Livro" = sum(sapply(ambientais.prof, function(x) length(x$producao_bibiografica$LIVRO$ano))),
+"Ambientais Periodico" = sum(sapply(ambientais.prof, function(x) length(x$producao_bibiografica$PERIODICO$ano))),
+"Ambientais Jornais" = sum(sapply(ambientais.prof, function(x) length(x$producao_bibiografica$TEXTO_EM_JORNAIS$ano))),
+"Agronegocio Livro" = sum(sapply(agronegocio.prof, function(x) length(x$producao_bibiografica$LIVRO$ano))),
+"Agronegocio Periodico" = sum(sapply(agronegocio.prof, function(x) length(x$producao_bibiografica$PERIODICO$ano))),
+"Agronegócio Jornais" = sum(sapply(agronegocio.prof, function(x) length(x$producao_bibiografica$TEXTO_EM_JORNAIS$ano)))) %>% 
+  knitr::kable(caption = "Número de Livros, Periódicos e Texto em Jonais por programa")
+
 # Número de pessoas por quantitativo de produções por pessoa 0 = 1; 1 = 2...
-table(unlist(sapply(agro.prof, function(x) length(x$producao_bibiografica$ARTIGO_ACEITO$ano))))
-table(unlist(sapply(agro.prof, function(x) length(x$producao_bibiografica$ARTIGO_ACEITO$ano))))
-table(unlist(sapply(agro.prof, function(x) length(x$producao_bibiografica$CAPITULO_DE_LIVRO$ano))))
-table(unlist(sapply(agro.prof, function(x) length(x$producao_bibiografica$LIVRO$ano))))
-table(unlist(sapply(agro.prof, function(x) length(x$producao_bibiografica$PERIODICO$ano))))
-table(unlist(sapply(agro.prof, function(x) length(x$producao_bibiografica$TEXTO_EM_JORNAIS$ano))))
+table(unlist(sapply(agro.prof, function(x) length(x$producao_bibiografica$ARTIGO_ACEITO$ano)))) %>% 
+  knitr::kable(caption = "Número de pessoas por quantitativo de produções de artigo na Agronomia")
+table(unlist(sapply(ambientais.prof, function(x) length(x$producao_bibiografica$ARTIGO_ACEITO$ano))))%>% 
+  knitr::kable(caption = "Número de pessoas por quantitativo de produções de artigo em Ambientais")
+table(unlist(sapply(agronegocio.prof, function(x) length(x$producao_bibiografica$ARTIGO_ACEITO$ano))))%>% 
+  knitr::kable(caption = "Número de pessoas por quantitativo de produções de artigo em Agronegócio")
+table(unlist(sapply(agro.prof, function(x) length(x$producao_bibiografica$CAPITULO_DE_LIVRO$ano)))) %>% 
+  knitr::kable(caption = "Número de pessoas por quantitativo de produções de Capitulos de Livro na Agronomia") 
+table(unlist(sapply(ambientais.prof, function(x) length(x$producao_bibiografica$CAPITULO_DE_LIVRO$ano)))) %>% 
+  knitr::kable(caption = "Número de pessoas por quantitativo de produções de Capitulos de Livros em Ambientais") 
+table(unlist(sapply(agronegocio.prof, function(x) length(x$producao_bibiografica$CAPITULO_DE_LIVRO$ano)))) %>% 
+  knitr::kable(caption = "Número de pessoas por quantitativo de produções de Capitulos de Livros em Agronegócio") 
+table(unlist(sapply(agro.prof, function(x) length(x$producao_bibiografica$LIVRO$ano))))%>% 
+  knitr::kable(caption = "Livros por ano na Agronomia")
+table(unlist(sapply(ambientais.prof, function(x) length(x$producao_bibiografica$LIVRO$ano))))%>% 
+  knitr::kable(caption = "Livros por ano em Ambientais")
+table(unlist(sapply(agronegocio.prof, function(x) length(x$producao_bibiografica$LIVRO$ano))))%>% 
+  knitr::kable(caption = "Livros por ano em Agronegocio")
+table(unlist(sapply(agro.prof, function(x) length(x$producao_bibiografica$PERIODICO$ano))))%>% 
+  knitr::kable(caption = "Periódicos por ano na Agronomia")
+table(unlist(sapply(ambientais.prof, function(x) length(x$producao_bibiografica$PERIODICO$ano))))%>% 
+  knitr::kable(caption = "Periódicos por ano em Ambientais")
+table(unlist(sapply(agronegocio.prof, function(x) length(x$producao_bibiografica$PERIODICO$ano))))%>% 
+  knitr::kable(caption = "Periódicos por ano em Agronegocio")
+table(unlist(sapply(agro.prof, function(x) length(x$producao_bibiografica$TEXTO_EM_JORNAIS$ano))))%>% 
+  knitr::kable(caption = "Textos em jornais por ano na Agronomia")
+table(unlist(sapply(ambientais.prof, function(x) length(x$producao_bibiografica$TEXTO_EM_JORNAIS$ano))))%>% 
+  knitr::kable(caption = "Textos em jornais por ano em ambientais")
+table(unlist(sapply(agronegocio.prof, function(x) length(x$producao_bibiografica$TEXTO_EM_JORNAIS$ano))))%>% 
+  knitr::kable(caption = "Textos em jornais por ano em Agronegócio")
 
-table(unlist(sapply(ambientais.prof, function(x) length(x$producao_bibiografica$ARTIGO_ACEITO$ano))))
-table(unlist(sapply(ambientais.prof, function(x) length(x$producao_bibiografica$ARTIGO_ACEITO$ano))))
-table(unlist(sapply(ambientais.prof, function(x) length(x$producao_bibiografica$CAPITULO_DE_LIVRO$ano))))
-table(unlist(sapply(ambientais.prof, function(x) length(x$producao_bibiografica$LIVRO$ano))))
-table(unlist(sapply(ambientais.prof, function(x) length(x$producao_bibiografica$PERIODICO$ano))))
-table(unlist(sapply(ambientais.prof, function(x) length(x$producao_bibiografica$TEXTO_EM_JORNAIS$ano))))
 
-# Número de produções por ano
-table(unlist(sapply(agro.prof, function(x) (x$producao_bibiografica$ARTIGO_ACEITO$ano))))
-table(unlist(sapply(agro.prof, function(x) (x$producao_bibiografica$CAPITULO_DE_LIVRO$ano))))
-table(unlist(sapply(agro.prof, function(x) (x$producao_bibiografica$LIVRO$ano))))
-table(unlist(sapply(agro.prof, function(x) (x$producao_bibiografica$PERIODICO$ano))))
-table(unlist(sapply(agro.prof, function(x) (x$producao_bibiografica$TEXTO_EM_JORNAIS$ano))))
-
-table(unlist(sapply(ambientais.prof, function(x) (x$producao_bibiografica$ARTIGO_ACEITO$ano))))
-table(unlist(sapply(ambientais.prof, function(x) (x$producao_bibiografica$CAPITULO_DE_LIVRO$ano))))
-table(unlist(sapply(ambientais.prof, function(x) (x$producao_bibiografica$LIVRO$ano))))
-table(unlist(sapply(ambientais.prof, function(x) (x$producao_bibiografica$PERIODICO$ano))))
-table(unlist(sapply(ambientais.prof, function(x) (x$producao_bibiografica$TEXTO_EM_JORNAIS$ano))))
 # Número de pessoas que realizaram diferentes tipos de orientações
 length(unlist(sapply(agro.prof, function(x) names(x$orientacoes_academicas))))
 length(unlist(sapply(ambientais.prof, function(x) names(x$orientacoes_academicas))))
@@ -471,40 +573,82 @@ length(unlist(sapply(ambientais.prof, function(x) names(x$orientacoes_academicas
 # Número de pessoas por tipo de orientação
 orienta.agro <- table(unlist(sapply(agro.prof, function(x) names(x$orientacoes_academicas))))
 orienta.agro <- data.frame(orienta.agro)
-ggplot(orienta.agro, aes(x=Var1, y = Freq)) + geom_col()
+ggplot(orienta.agro, aes(x=Var1, y = Freq)) + geom_col()+
+  ggtitle("Número de pessoas por tipo de orientação na Agronomia")
 
 orienta.ambientais <- table(unlist(sapply(ambientais.prof, function(x) names(x$orientacoes_academicas))))
 orienta.ambientais <- data.frame(orienta.ambientais)
-#Número de orientações concluidas
-sum(sapply(agro.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_MESTRADO$ano)))
-sum(sapply(agro.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_DOUTORADO$ano)))
-sum(sapply(agro.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_POS_DOUTORADO$ano)))
+ggplot(orienta.ambientais, aes(x=Var1, y = Freq)) + geom_col()+
+  ggtitle("Número de pessoas por tipo de orientação em Ambientais")
 
-sum(sapply(ambientais.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_MESTRADO$ano)))
-sum(sapply(ambientais.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_DOUTORADO$ano)))
-sum(sapply(ambientais.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_POS_DOUTORADO$ano)))
+orienta.agronegocio <- table(unlist(sapply(agronegocio.prof, function(x) names(x$orientacoes_academicas))))
+orienta.agronegocio <- data.frame(orienta.agronegocio)
+ggplot(orienta.agronegocio, aes(x=Var1, y = Freq)) + geom_col()+
+  ggtitle("Número de pessoas por tipo de orientação em Agronegocio")
+
+#Número de orientações concluidas
+c("Mestrado" = sum(sapply(agro.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_MESTRADO$ano))),
+"Doutorado" = sum(sapply(agro.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_DOUTORADO$ano))),
+"Pos Doutorado" = sum(sapply(agro.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_POS_DOUTORADO$ano)))) %>% 
+  knitr::kable(caption = "Número de orientações concluídas na Agronomia")
+
+c("Mestrado" = sum(sapply(ambientais.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_MESTRADO$ano))),
+"Doutorado" = sum(sapply(ambientais.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_DOUTORADO$ano))),
+"Pos Doutorado" = sum(sapply(ambientais.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_POS_DOUTORADO$ano)))) %>% 
+  knitr::kable(caption = "Número de Orientações Concluídas em Ambientais")
+
+c("Mestrado" = sum(sapply(agronegocio.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_MESTRADO$ano))),
+"Doutorado" = sum(sapply(agronegocio.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_DOUTORADO$ano))),
+"Pos-Doutorado" = sum(sapply(agronegocio.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_POS_DOUTORADO$ano)))) %>% 
+  knitr::kable(caption = "Número de Orientações Concluídas em Agronegócio")
 
 # Número de pessoas por quantitativo de orientações por pessoa 0 = 1; 1 = 2...
-table(unlist(sapply(agro.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_MESTRADO$ano))))
-table(unlist(sapply(agro.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_DOUTORADO$ano))))
-table(unlist(sapply(agro.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_POS_DOUTORADO$ano))))
+table(unlist(sapply(agro.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_MESTRADO$ano)))) %>% 
+  knitr::kable(caption = "Número de pessoas por quantitativo de orientações de mestrados na Agronomia")
+table(unlist(sapply(agro.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_DOUTORADO$ano)))) %>% 
+  knitr::kable(caption = "Número de pessoas por quantitativo de orientações de doutorados na Agronomia")
+table(unlist(sapply(agro.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_POS_DOUTORADO$ano)))) %>% 
+  knitr::kable(caption = "Número de pessoas por quantitativo de orientações de Pós-Doutorados na Agronomia")
 
-table(unlist(sapply(ambientais.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_MESTRADO$ano))))
-table(unlist(sapply(ambientais.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_DOUTORADO$ano))))
-table(unlist(sapply(ambientais.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_POS_DOUTORADO$ano))))
+table(unlist(sapply(ambientais.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_MESTRADO$ano)))) %>% 
+  knitr::kable(caption = "Número de pessoas por quantitativo de orientações de mestrado em Ambientais")
+table(unlist(sapply(ambientais.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_DOUTORADO$ano)))) %>% 
+  knitr::kable(caption = "Número de pessoas por quantitativo de orientações de doutorado em Ambientais")
+table(unlist(sapply(ambientais.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_POS_DOUTORADO$ano)))) %>% 
+  knitr::kable(caption = "Número de pessoas por quantitativo de orientações de Pós-Doutorado em Ambientais")
+
+table(unlist(sapply(agronegocio.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_MESTRADO$ano)))) %>% 
+  knitr::kable(caption = "Número de pessoas por quantitativo de orientações de mestrado em Agronegócio")
+table(unlist(sapply(agronegocio.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_DOUTORADO$ano)))) %>% 
+  knitr::kable(caption = "Número de pessoas por quantitativo de orientações de doutorado em Agronegócio")
+table(unlist(sapply(agronegocio.prof, function(x) length(x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_POS_DOUTORADO$ano)))) %>% 
+  knitr::kable(caption = "Número de pessoas por quantitativo de orientações de Pós-Doutorado em Agronegócio")
 
 # Número de orientações por ano
-table(unlist(sapply(agro.prof, function(x) (x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_MESTRADO$ano))))
-table(unlist(sapply(agro.prof, function(x) (x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_DOUTORADO$ano))))
-table(unlist(sapply(agro.prof, function(x) (x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_POS_DOUTORADO$ano))))
+table(unlist(sapply(agro.prof, function(x) (x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_MESTRADO$ano))))  %>% 
+  knitr::kable(caption = "Número orientações de mestrado por ano na Agronomia")
+table(unlist(sapply(agro.prof, function(x) (x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_DOUTORADO$ano)))) %>% 
+  knitr::kable(caption = "Número de orientações de doutorado por ano na Agronomia")
+table(unlist(sapply(agro.prof, function(x) (x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_POS_DOUTORADO$ano))))%>% 
+  knitr::kable(caption = "Número orientações de pós-doutorado por ano na Agronomia")
 
-table(unlist(sapply(ambientais.prof, function(x) (x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_MESTRADO$ano))))
-table(unlist(sapply(ambientais.prof, function(x) (x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_DOUTORADO$ano))))
-table(unlist(sapply(ambientais.prof, function(x) (x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_POS_DOUTORADO$ano))))
+table(unlist(sapply(ambientais.prof, function(x) (x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_MESTRADO$ano))))%>% 
+  knitr::kable(caption = "Número orientações de mestrado por ano em Ambientais")
+table(unlist(sapply(ambientais.prof, function(x) (x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_DOUTORADO$ano))))%>% 
+  knitr::kable(caption = "Número orientações de doutorado por ano em Ambientais")
+table(unlist(sapply(ambientais.prof, function(x) (x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_POS_DOUTORADO$ano))))%>% 
+  knitr::kable(caption = "Número orientações de pós-doutorado por ano na Ambientais")
+
+table(unlist(sapply(agronegocio.prof, function(x) (x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_MESTRADO$ano))))%>% 
+  knitr::kable(caption = "Número orientações de mestrado por ano em Agronegocio")
+table(unlist(sapply(agronegocio.prof, function(x) (x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_DOUTORADO$ano))))%>% 
+  knitr::kable(caption = "Número orientações de doutorado por ano em Agronegocio")
+table(unlist(sapply(agronegocio.prof, function(x) (x$orientacoes_academicas$ORIENTACAO_CONCLUIDA_POS_DOUTORADO$ano))))%>% 
+  knitr::kable(caption = "Número orientações de pós-doutorado por ano na Agronegocio")
 
 ```
 
-Com os resultados apresentados acima, é possível observar que há uma concentração de pessoas na Grande Área das Ciências Agrárias, o que significa que há pouco acadêmicos de outras áreas aplicando os conhecimentos na Agronomia. Além disso, os dados mostram que o maior número de orientações dos ultimos anos foram de iniciação científica e graduação. 
+Com os resultados apresentados acima, é possível observar que há uma concentração de pessoas na Grande Área das Ciências Agrárias, o que significa que há pouco acadêmicos de outras áreas aplicando os conhecimentos na Agronomia. Além disso, os dados mostram que o maior número de orientações dos ultimos anos foram de iniciação científica e graduação. Já o programa PROFCIAMB possui maior concentração na área de ciências sociais aplicada. O programa de Agronegócio também possui mais orientações na área de Ciências Sociais Aplicadas.
 
 
 ###Arquivo Publicação
@@ -519,7 +663,11 @@ glimpse(agro.pub.df)
 
 ambientais.pub.df <- data.frame()
 for (i in 1:length(ambientais.pub[[1]]))
-  agro.pub.df <- rbind(ambientais.pub.df, ambientais.pub$PERIODICO[[i]])
+  ambientais.pub.df <- rbind(ambientais.pub.df, ambientais.pub$PERIODICO[[i]])
+glimpse(ambientais.pub.df)
+agronegocio.pub.df <- data.frame()
+for (i in 1:length(agronegocio.pub[[1]]))
+  agronegocio.pub.df <- rbind(agronegocio.pub.df, agronegocio.pub$PERIODICO[[i]])
 glimpse(ambientais.pub.df)
 # Limpando o data-frame de listas
 agro.pub.df$autores <- gsub("\",\"|\", \"", "; ", agro.pub.df$autores)
@@ -567,12 +715,27 @@ for (i in 1:length(ambientais.adv[[1]]))
 ambientais.adv.df <- rbind(ambientais.adv.df, ambientais.adv.tipo.df)
 glimpse(ambientais.adv.df)
 
+agronegocio.adv.tipo.df <- data.frame(); agronegocio.adv.df <- data.frame()
+for (i in 1:length(agronegocio.adv[[1]]))
+  agronegocio.adv.tipo.df <- rbind(agronegocio.adv.tipo.df, agronegocio.adv$ORIENTACAO_CONCLUIDA_POS_DOUTORADO[[i]])
+agronegovio.adv.df <- rbind(ambientais.adv.df, ambientais.adv.tipo.df); agronegocio.adv.tipo.df <- data.frame()
+for (i in 1:length(agronegocio.adv[[1]]))
+  agronegocio.adv.tipo.df <- rbind(agronegocio.adv.tipo.df, agronegocio.adv$ORIENTACAO_CONCLUIDA_DOUTORADO[[i]])
+agronegocio.adv.df <- rbind(agronegocio.adv.df, agronegocio.adv.tipo.df); agronegovio.adv.tipo.df <- data.frame()
+for (i in 1:length(agronegocio.adv[[1]]))
+  agronegocio.adv.tipo.df <- rbind(agronegocio.adv.tipo.df, agronegocio.adv$ORIENTACAO_CONCLUIDA_MESTRADO[[i]])
+agronegocio.adv.df <- rbind(agronegocio.adv.df, agronegocio.adv.tipo.df)
+glimpse(agronegocio.adv.df)
+
 #Transformar as colunas de listas em caracteres eliminando c("")
 agro.adv.df$nome_orientadores <- gsub("\"|c\\(|\\)", "", agro.adv.df$nome_orientadores)
 agro.adv.df$id_lattes_orientadores <- gsub("\"|c\\(|\\)", "", agro.adv.df$id_lattes_orientadores)
 
 ambientais.adv.df$nome_orientadores <- gsub("\"|c\\(|\\)", "", ambientais.adv.df$nome_orientadores)
 ambientais.adv.df$id_lattes_orientadores <- gsub("\"|c\\(|\\)", "", ambientais.adv.df$id_lattes_orientadores)
+
+agronegocio.adv.df$nome_orientadores <- gsub("\"|c\\(|\\)", "", agronegocio.adv.df$nome_orientadores)
+agronegocio.adv.df$id_lattes_orientadores <- gsub("\"|c\\(|\\)", "", agronegocio.adv.df$id_lattes_orientadores)
 
 #Separar as colunas com dois orientadores
 
@@ -582,12 +745,20 @@ agro.adv.df <- separate(agro.adv.df, id_lattes_orientadores, into = c("idLattes1
 ambientais.adv.df <- separate(ambientais.adv.df, nome_orientadores, into = c("ori1", "ori2"), sep = ",")
 ambientais.adv.df <- separate(ambientais.adv.df, id_lattes_orientadores, into = c("idLattes1", "idLattes2"), sep = ",")
 
+agronegocio.adv.df <- separate(agronegocio.adv.df, nome_orientadores, into = c("ori1", "ori2"), sep = ",")
+agronegocio.adv.df <- separate(agronegocio.adv.df, id_lattes_orientadores, into = c("idLattes1", "idLattes2"), sep = ",")
+
 #Numero de orientacoes por ano
-table(agro.adv.df$ano)
-table(ambientais.adv.df$ano)
+table(agro.adv.df$ano) %>% 
+  knitr::kable(caption = "Número de orientações por ano na Agronomia")
+table(ambientais.adv.df$ano) %>% 
+  knitr::kable(caption = "Númoer de orientações por ano em Ambientais")
+table(agronegocio.adv.df$ano) %>% 
+  knitr::kable(caption = "Númoer de orientações por ano em Agronegócio")
 #Tabela com nome de professor e numero de orientacoes
 head(sort(table(rbind(agro.adv.df$ori1, agro.adv.df$ori2)), decreasing = TRUE), 20)
 head(sort(table(rbind(ambientais.adv.df$ori1, ambientais.adv.df$ori2)), decreasing = TRUE), 20)
+head(sort(table(rbind(agronegocio.adv.df$ori1, ambientais.adv.df$ori2)), decreasing = TRUE), 20)
 ```
 
 
@@ -816,30 +987,38 @@ extrai_areas_atuacao <- function(jsonProfessores){
 ########################### Inicio 
 
 # colocar o diretorio onde está o arquivo json de perfis a serem lidos 
-agro.prof.json <- read_file("data/agropos.profile.json")
+agro.prof.json <- read_file("dados/233.profile.json")
 ambientais.prof.json <- read_file("dados/ambientais.profile.json")
-agro.prof.df.capes <- read.csv("data/PesqPosCapes.csv", 
-                              sep = ";", header = TRUE, colClasses = "character")
+agronegocio.prof.json <- read_file("dados/232.profile.json")
+# agro.prof.df.capes <- read.csv("data/PesqPosCapes.csv", 
+#                               sep = ";", header = TRUE, colClasses = "character")
+
 agro.prof <- fromJSON(agro.prof.json)
 ambientais.prof <- fromJSON(ambientais.prof.json)
+agronegocio.prof <- fromJSON(agronegocio.prof.json)
 length(agro.prof)
 length(ambientais.prof)
+length(agronegocio.prof)
 
 # extrai perfis dos professores 
 agro.prof.df.professores <- extrai_perfis(agro.prof)
 ambientais.prof.df.professores <- extrai_perfis(ambientais.prof)
+agronegocio.prof.df.professores <- extrai_perfis(agronegocio.prof)
 
 # extrai producao bibliografica de todos os professores 
 agro.prof.df.publicacoes <- extrai_producoes(agro.prof)
 ambientais.prof.df.publicacoes <- extrai_producoes(ambientais.prof)
+agronegocio.prof.df.publicacoes <- extrai_producoes(agronegocio.prof)
 
 #extrai orientacoes 
 agro.prof.df.orientacoes <- extrai_orientacoes(agro.prof)
 ambientais.prof.df.orientacoes <- extrai_orientacoes(ambientais.prof)
+agronegocio.prof.df.orientacoes <- extrai_orientacoes(agronegocio.prof)
 
 #extrai areas de atuacao 
 agro.prof.df.areas.de.atuacao <- extrai_areas_atuacao(agro.prof)
 ambientais.prof.df.areas.de.atuacao <- extrai_areas_atuacao(ambientais.prof)
+agronegocio.prof.df.areas.de.atuacao <- extrai_areas_atuacao(agronegocio.prof)
 
 #salva os daframes 
 save(agro.prof.df.professores, agro.prof.df.publicacoes,
@@ -847,6 +1026,9 @@ save(agro.prof.df.professores, agro.prof.df.publicacoes,
 
 save(ambientais.prof.df.professores, ambientais.prof.df.publicacoes,
      ambientais.prof.df.orientacoes, ambientais.prof.df.areas.de.atuacao, file = "dataframes.Rda")
+
+save(agronegocio.prof.df.professores, agronegocio.prof.df.publicacoes,
+     agronegocio.prof.df.orientacoes, agronegocio.prof.df.areas.de.atuacao, file = "dataframes.Rda")
 
 #cria arquivo para análise
 agro.prof.df <- data.frame()
@@ -873,12 +1055,6 @@ agro.prof.df <- agro.prof.df.professores %>%
       select(area, idLattes) %>% 
       group_by(idLattes) %>% 
       summarise(n_distinct(area)), 
-    by = "idLattes") %>% 
-  left_join(
-    agro.prof.df.capes %>% 
-      select(AreaPos, idLattes) %>% 
-      group_by(idLattes) %>% 
-      summarise(n_distinct(AreaPos)), 
     by = "idLattes")
 
 glimpse(agro.prof.df)
@@ -908,15 +1084,37 @@ ambientais.prof.df <- ambientais.prof.df.professores %>%
       select(area, idLattes) %>% 
       group_by(idLattes) %>% 
       summarise(n_distinct(area)), 
-    by = "idLattes") %>% 
-  left_join(
-    ambientais.prof.df.capes %>% 
-      select(AreaPos, idLattes) %>% 
-      group_by(idLattes) %>% 
-      summarise(n_distinct(AreaPos)), 
     by = "idLattes")
 
 glimpse(ambientais.prof.df)
+
+agronegocio.prof.df <- data.frame()
+agronegocio.prof.df <- agronegocio.prof.df.professores %>% 
+  select(idLattes, nome, resumo_cv, senioridade) %>% 
+  left_join(
+    agronegocio.prof.df.orientacoes %>% 
+      select(orientacao, idLattes) %>% 
+      filter(!grepl("EM_ANDAMENTO", orientacao)) %>% 
+      group_by(idLattes) %>% 
+      count(orientacao) %>% 
+      spread(key = orientacao, value = n), 
+    by = "idLattes") %>% 
+  left_join(
+    agronegocio.prof.df.publicacoes %>% 
+      select(tipo_producao, idLattes) %>% 
+      filter(!grepl("ARTIGO_ACEITO", tipo_producao)) %>% 
+      group_by(idLattes) %>% 
+      count(tipo_producao) %>% 
+      spread(key = tipo_producao, value = n), 
+    by = "idLattes") %>% 
+  left_join(
+    agronegocio.prof.df.areas.de.atuacao %>% 
+      select(area, idLattes) %>% 
+      group_by(idLattes) %>% 
+      summarise(n_distinct(area)), 
+    by = "idLattes")
+
+glimpse(agronegocio.prof.df)
 ```
 
 
